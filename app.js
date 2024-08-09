@@ -17,7 +17,7 @@ import nodemailer from 'nodemailer';
 dotenv.config(); // Load environment variables
 
 const app = express();
-const PORT = process.env.PORT || 8002; // Use the port from environment variables or fallback to 8001
+const PORT = process.env.PORT || 8001; // Use the port from environment variables or fallback to 8001
 
 app.use(express.json());
 app.use(cors());
