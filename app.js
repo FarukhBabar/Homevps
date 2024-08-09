@@ -17,7 +17,7 @@ import nodemailer from 'nodemailer';
 dotenv.config(); // Load environment variables
 
 const app = express();
-const PORT = process.env.PORT || 8001; // Use the port from environment variables or fallback to 8001
+const PORT = process.env.PORT || 8002; // Use the port from environment variables or fallback to 8001
 
 app.use(express.json());
 app.use(cors());
@@ -119,6 +119,16 @@ app.post('/api/orders', async (req, res) => {
     });
 
     await newOrder.save();
+
+   app.get('/api/listorders', async (req, res) => {
+  try {
+    const orderList = await OrderSchema.find(); // Retrieve all orders from the database
+    res.status(200).json(orderList); // Send the orders as a JSON response
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve orders', error });
+  }
+});
+
 
     // Send email to the user
     const mailOptions = {
