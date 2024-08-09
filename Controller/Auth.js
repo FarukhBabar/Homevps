@@ -48,6 +48,7 @@ import BleechSchema from '../config/Bleech.js'
 import sendemail from '../Utils/otp.js'
 import User from "../config/Registerschema.js"
 import slugify from 'slugify';
+import OrderSchema from '../config/Odersch.js'
 export  const Register =     async(req , res)=>{  
     try{    
  let {Companynname , CompanyRegistration, CompanyVat,Address1,Address2,Address3,Postcode,City,County,Country,Title,FirstName,LastName,PhoneNumber, email , password , role} =req.body
@@ -117,6 +118,52 @@ export const getAllUsers = async (req, res) => {
         console.error(error);
         res.status(500).send({ Message: "Error fetching users" });
     }
+};
+export const ALLoders = async (req, res) => {
+    try {
+        // Fetch all orders from the database
+        const orders = await OrderSchema.find();
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error('Error fetching orders:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+export const editoder = async (req, res) => {
+  try {
+    const { id } = req.params; // Use 'id' from URL parameters
+    const { paymentStatus } = req.body; // Get payment status from the request body
+
+    // Find and update the order
+    const updatedOrder = await OrderSchema.findByIdAndUpdate(
+      id,
+      { paymentStatus },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json(updatedOrder);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+ export const Deletoderuser = async (req, res) => {
+  try {
+    const { id } = req.params; // Use 'id' instead of 'name'
+    const deletedOrder = await OrderSchema.findByIdAndDelete(id);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json({ message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 export const deleteUser = async (req, res) => {
     try {

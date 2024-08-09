@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
-  orderNumber: String,
-  name: String,
+ name: String,
   email: String,
   phone: String,
   address: String,
@@ -11,7 +10,11 @@ const OrderSchema = new mongoose.Schema({
   country: String,
   cartItems: Array,
   quantities: Object,
-  totalAmount: Number
-});
+  totalAmount: Number,
+  paymentStatus: String,  
+},{
+  timestamps: true,
+}
+);
 
  export default mongoose.model('Order', OrderSchema);

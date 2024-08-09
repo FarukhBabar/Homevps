@@ -99,7 +99,8 @@ app.get("/smokingsingalepage/:id", async (req, res) => {
 
 // Endpoint to handle form submissions and send confirmation emails
 app.post('/api/orders', async (req, res) => {
-  const { name, email, phone, address, city, zip, country, cartItems, quantities, totalAmount } = req.body;
+  const { name, email, phone, address, city, zip, country, cartItems, quantities, totalAmount, paymentStatus,
+ } = req.body;
 
   try {
     const orderNumber = generateOrderNumber();
@@ -116,20 +117,11 @@ app.post('/api/orders', async (req, res) => {
       cartItems,
       quantities,
       totalAmount,
+      paymentStatus,
     });
 
     await newOrder.save();
-
-   app.get('/api/listorders', async (req, res) => {
-  try {
-    const orderList = await OrderSchema.find(); // Retrieve all orders from the database
-    res.status(200).json(orderList); // Send the orders as a JSON response
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to retrieve orders', error });
-  }
-});
-
-
+app.get('/api/orders', );
     // Send email to the user
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -191,33 +183,6 @@ app.post('/api/payment_intents', async (req, res) => {
       res.status(500).send('Server Error');
     }
   });
-  // Assuming you are using Express
-// app.get('/api/products/most-selling/:name', async (req, res) => {
-//   try {
-//     const name = req.params.name;
-//     const models = [FreeSchema, SmokinSchema];
-//     let allProducts = [];
-
-//     for (const Model of models) {
-//       console.log(`Fetching data from model: ${Model.modelName}`);
-//       const products = await Model.find({ name: new RegExp(name, 'i') }).sort({ sales: -1 }).limit(10).exec();
-//       allProducts = allProducts.concat(products);
-//     }
-
-//     allProducts.sort((a, b) => b.sales - a.sales);
-//     allProducts = allProducts.slice(0, 10);
-
-//     if (allProducts.length === 0) {
-//       return res.status(404).send('Product not found');
-//     }
-
-//     res.json(allProducts[0]); // Assuming you want the most relevant product
-//   } catch (error) {
-//     console.error('Error fetching most selling products:', error);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
 app.get('/api/products/most-selling/:name', async (req, res) => {
   try {
     const name = req.params.name;
