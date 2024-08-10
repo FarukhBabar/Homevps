@@ -20,7 +20,14 @@ const app = express();
 const PORT = process.env.PORT || 8001; // Use the port from environment variables or fallback to 8001
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+    origin: 'https://homeessentialshive.co.uk',
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+}));
+
  const stripe = Stripe('sk_test_51PYLCyRrKUSfNnmkLuNef5mqXzSqi0Oypu8fKO3AvqsvMV3DMVROgPL7oK7w3k95myoW75PAQHcS9Fd8G8RABiot00LeEbE29R');
 
 DbConnection(); // Initialize database connection
