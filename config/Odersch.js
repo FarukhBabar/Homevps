@@ -12,6 +12,12 @@ const OrderSchema = new mongoose.Schema({
   quantities: Object,
   totalAmount: Number,
   paymentStatus: String,  
+  orderNumber: {
+    type: String,
+    default: () => {
+      return `ORD-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    },
+  },
 },{
   timestamps: true,
 }

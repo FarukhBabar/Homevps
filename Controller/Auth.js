@@ -129,28 +129,6 @@ export const ALLoders = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-export const editoder = async (req, res) => {
-  try {
-    const { id } = req.params; // Use 'id' from URL parameters
-    const { paymentStatus } = req.body; // Get payment status from the request body
-
-    // Find and update the order
-    const updatedOrder = await OrderSchema.findByIdAndUpdate(
-      id,
-      { paymentStatus },
-      { new: true }
-    );
-
-    if (!updatedOrder) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-
-    res.json(updatedOrder);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
  export const Deletoderuser = async (req, res) => {
   try {
     const { id } = req.params; // Use 'id' instead of 'name'
